@@ -29,15 +29,9 @@ contract NFTCollection is ERC721URIStorage, Ownable {
         uint256 newItemId = _tokenIds.current();
         _mint(recipient, newItemId);
         _setTokenURI(newItemId, tokenURI);
-<<<<<<< HEAD
         uint256 arrayLength = nftListByAddress[recipient].length;
         TokenIndex[newItemId] = arrayLength;
         nftListByAddress[recipient].push(newItemId);
-=======
-        nftListByAddress[recipient].push(newItemId);
-        uint256 arrayLength = nftListByAddress[recipient].length;
-        TokenIndex[newItemId] = arrayLength;
->>>>>>> bf1cb2ce5726d14b0943822e4f6f425c4c109f84
         return newItemId;
     }
 
@@ -81,14 +75,8 @@ contract NFTCollection is ERC721URIStorage, Ownable {
             nftListByAddress[from].pop();
             TokenIndex[token_pop] = token_index;
         }
-<<<<<<< HEAD
         uint256 arrayLength = nftListByAddress[to].length;
         TokenIndex[tokenId] = arrayLength;
         nftListByAddress[to].push(tokenId);
-=======
-        nftListByAddress[to].push(tokenId);
-        uint256 arrayLength = nftListByAddress[to].length;
-        TokenIndex[tokenId] = arrayLength;
->>>>>>> bf1cb2ce5726d14b0943822e4f6f425c4c109f84
     }
 }

@@ -11,7 +11,6 @@ contract NFTMarketplace {
     mapping(address => uint256[]) public offerListByAddress;
     mapping(uint256 => uint256) public TokenIndex;
     mapping(uint256 => uint256) public offerIndex;
-<<<<<<< HEAD
     mapping(uint256 => uint256) public tokenIdToOffer;
     uint256 [] offerList;
     BAoE BATK;
@@ -45,38 +44,6 @@ contract NFTMarketplace {
         BATK = BAoE(_token);
     }
 
-=======
-    uint256 [] offerList;
-
-    NFTCollection nftCollection;
-    struct _Offer {
-        uint256 offerId;
-        uint256 id;
-        address user;
-        uint256 price;
-        bool fulfilled;
-        bool cancelled;
-    }
-
-    event Offer(
-        uint256 offerId,
-        uint256 id,
-        address user,
-        uint256 price,
-        bool fulfilled,
-        bool cancelled
-    );
-
-    event OfferFilled(uint256 offerId, uint256 id, address newOwner);
-    event OfferCancelled(uint256 offerId, uint256 id, address owner);
-    event ClaimFunds(address user, uint256 amount);
-    event DonateEvent(address user, uint256 amount);
-
-    constructor(address _nftCollection) {
-        nftCollection = NFTCollection(_nftCollection);
-    }
-
->>>>>>> bf1cb2ce5726d14b0943822e4f6f425c4c109f84
     function makeOffer(uint256 _id, uint256 _price) public {
         nftCollection.transferFrom(msg.sender, address(this), _id);
         offerCount++;
@@ -88,21 +55,14 @@ contract NFTMarketplace {
             false,
             false
         );
-<<<<<<< HEAD
         tokenIdToOffer[_id] = offerCount;
-=======
->>>>>>> bf1cb2ce5726d14b0943822e4f6f425c4c109f84
         offerListByAddress[msg.sender].push(_id);
         uint256 arrayLength = offerListByAddress[msg.sender].length;
         TokenIndex[_id] = arrayLength;
         offerList.push(_id);
         uint256 offerLength = offerList.length;
         offerIndex[_id] = offerLength;
-<<<<<<< HEAD
         // emit Offer(offerCount, _id, msg.sender, _price, false, false);
-=======
-        emit Offer(offerCount, _id, msg.sender, _price, false, false);
->>>>>>> bf1cb2ce5726d14b0943822e4f6f425c4c109f84
     }
 
     function fromHexChar(uint8 c) public pure returns (uint8) {
@@ -167,11 +127,7 @@ contract NFTMarketplace {
         return offerIndex[tokenId];
     }
 
-<<<<<<< HEAD
     function fillOffer(uint256 _offerId, uint256 amount) public {
-=======
-    function fillOffer(uint256 _offerId) public payable {
->>>>>>> bf1cb2ce5726d14b0943822e4f6f425c4c109f84
         _Offer storage _offer = offers[_offerId];
         require(_offer.offerId == _offerId, "The offer must exist");
         require(
@@ -181,19 +137,11 @@ contract NFTMarketplace {
         require(!_offer.fulfilled, "An offer cannot be fulfilled twice");
         require(!_offer.cancelled, "A cancelled offer cannot be fulfilled");
         require(
-<<<<<<< HEAD
             amount == _offer.price,
             "The BAoE amount should match with the NFT Price"
         );
         nftCollection.transferFrom(address(this), msg.sender, _offer.id);
         BATK.transferFrom(msg.sender,_offer.user, amount);
-=======
-            msg.value == _offer.price,
-            "The ETH amount should match with the NFT Price"
-        );
-        nftCollection.transferFrom(address(this), msg.sender, _offer.id);
-        payable(_offer.user).transfer(msg.value);
->>>>>>> bf1cb2ce5726d14b0943822e4f6f425c4c109f84
         _offer.fulfilled = true;
 
         uint256 token_index = checkTokenIndex(_offer.id);
@@ -217,11 +165,8 @@ contract NFTMarketplace {
             offerList.pop();
             offerIndex[offer_pop] = offer_index;
         }
-<<<<<<< HEAD
 
         tokenIdToOffer[_offer.id] = 0;
-=======
->>>>>>> bf1cb2ce5726d14b0943822e4f6f425c4c109f84
         // userFunds[_offer.user] += msg.value;
         emit OfferFilled(_offerId, _offer.id, msg.sender);
     }
@@ -264,10 +209,7 @@ contract NFTMarketplace {
             offerList.pop();
             offerIndex[offer_pop] = offer_index;
         }
-<<<<<<< HEAD
         tokenIdToOffer[_offer.id] = 0;
-=======
->>>>>>> bf1cb2ce5726d14b0943822e4f6f425c4c109f84
         emit OfferCancelled(_offerId, _offer.id, msg.sender);
     }
 
@@ -297,7 +239,6 @@ contract NFTMarketplace {
         return offerListByAddress[user];
     }
 
-<<<<<<< HEAD
     function getOfferId(uint256 TokenId) view public returns(uint256){
         return tokenIdToOffer[TokenId];
     }
@@ -308,8 +249,6 @@ contract NFTMarketplace {
         return _offer.price;
     }
 
-=======
->>>>>>> bf1cb2ce5726d14b0943822e4f6f425c4c109f84
     // Fallback: reverts if Ether is sent to this smart-contract by mistake
     fallback() external {
         revert();
